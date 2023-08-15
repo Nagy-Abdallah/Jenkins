@@ -1,18 +1,18 @@
 pipeline {
   agent any
     environment {
-        DEOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        // DEOCKERHUB_CREDENTIALS = credentials('dockerhub')
+      KUBECONFIG = credentials('minikube')
     }
   stages {
-  stage ('Apply Kubernetes files') {
-    steps{
-      script {
-        withKubeConfig([credentialsId: 'minikube']){
-        sh 'kubectl apply -f service.yaml'
-    }
-      }
-    }
-  }
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'kubectl apply -f deployment.yaml'
+                    sh 'kubectl apply -f service.yaml'
+                }
+            }
+        }
     // stage  ("Install dependeincies") {
     //   agent {
     //     docker {image 'node:lts-buster-slim'}
