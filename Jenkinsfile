@@ -4,13 +4,11 @@ pipeline {
         DEOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
   stages {
-    stage('Deploying React.js container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "service.yaml", kubeconfigId: "minikube")
-        }
-      }
-    }    
+  stage('Apply Kubernetes files') {
+    withKubeConfig([credentialsId: 'minikube']) {
+      sh 'kubectl apply -f service.yaml'
+    }
+  }  
     // stage  ("Install dependeincies") {
     //   agent {
     //     docker {image 'node:lts-buster-slim'}
