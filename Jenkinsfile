@@ -23,14 +23,14 @@ pipeline {
     //   }
     // }
 
-    stage ("Build"){
-      agent {
-        docker {image 'node:lts-buster-slim'}
-      }      
-      steps{
-        sh 'npm run build'
-      }
-    }
+    // stage ("Build"){
+    //   agent {
+    //     docker {image 'node:lts-buster-slim'}
+    //   }      
+    //   steps{
+    //     sh 'npm run build'
+    //   }
+    // }
     
     stage ("dockerBuild"){
     steps {
