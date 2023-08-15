@@ -4,6 +4,13 @@ pipeline {
         DEOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
   stages {
+    stage('Deploying React.js container to Kubernetes') {
+      steps {
+        script {
+          kubernetesDeploy(configs: "service.yaml")
+        }
+      }
+    }    
     // stage  ("Install dependeincies") {
     //   agent {
     //     docker {image 'node:lts-buster-slim'}
@@ -32,19 +39,19 @@ pipeline {
     //   }
     // }
     
-    stage ("dockerBuild"){
-    steps {
-      sh 'docker build -t nagyadel/eclipse:${BUILD_NUMBER} .'
-    }
-  }
-    stage ("LoginANDPushImage"){
-    steps {
-    sh 'echo username = ${DEOCKERHUB_CREDENTIALS_USR}'
-    sh 'echo passwrod = ${DEOCKERHUB_CREDENTIALS_PSW}'  
-    sh 'docker login -u ${DEOCKERHUB_CREDENTIALS_USR} -p ${DEOCKERHUB_CREDENTIALS_PSW} '  
-    sh 'docker push nagyadel/eclipse:${BUILD_NUMBER}' 
-    }
-  }
+  //   stage ("dockerBuild"){
+  //   steps {
+  //     sh 'docker build -t nagyadel/eclipse:${BUILD_NUMBER} .'
+  //   }
+  // }
+  //   stage ("LoginANDPushImage"){
+  //   steps {
+  //   sh 'echo username = ${DEOCKERHUB_CREDENTIALS_USR}'
+  //   sh 'echo passwrod = ${DEOCKERHUB_CREDENTIALS_PSW}'  
+  //   sh 'docker login -u ${DEOCKERHUB_CREDENTIALS_USR} -p ${DEOCKERHUB_CREDENTIALS_PSW} '  
+  //   sh 'docker push nagyadel/eclipse:${BUILD_NUMBER}' 
+  //   }
+  // }
 
   }
 }
