@@ -4,11 +4,15 @@ pipeline {
         DEOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
   stages {
-  stage('Apply Kubernetes files') {
-    withKubeConfig([credentialsId: 'minikube']) {
-      sh 'kubectl apply -f service.yaml'
+  stage ('Apply Kubernetes files') {
+    steps{
+      script {
+        withKubeConfig([credentialsId: 'minikube']){
+        sh 'kubectl apply -f service.yaml'
     }
-  }  
+      }
+    }
+  }
     // stage  ("Install dependeincies") {
     //   agent {
     //     docker {image 'node:lts-buster-slim'}
